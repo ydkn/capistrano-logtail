@@ -24,7 +24,7 @@ Or install it yourself as:
 
 ## Usage
 
-Require in `Capfile` to use the default task:
+Require in `Capfile`:
 
 ```ruby
 require 'capistrano/logtail'
