@@ -1,0 +1,34 @@
+namespace :logs do
+  desc 'Tail logs'
+  task :tail, :file do |t, args|
+    if args[:file]
+      files = args[:file][0] == '/' ? args[:file] : release_path.join('log', "#{args[:file]}.log")
+    else
+      files = fetch(:logtail_files)
+    end
+
+    on roles(:app) do
+      logtail_utility.tail(files)
+    end
+  end
+
+  namespace :tail do
+    def logtail_utility
+      @logtail_utility ||= Capistrano::Logtail::Utility.new(self)
+    end
+
+    desc 'Tail rails log'
+    task rails: ['deploy:set_rails_env'] do
+      on roles(:app) do
+        logtail_utility.tail(release_path.join('log', "#{fetch(:rails_env, 'production')}.log"))
+      end
+    end
+
+    desc 'Tail all logs'
+    task :all do
+      on roles(:app) do
+        logtail_utility.tail(release_path.join('log', '*.log'))
+      end
+    end
+  end
+end
