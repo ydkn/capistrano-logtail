@@ -7,6 +7,8 @@ namespace :logs do
       files = fetch(:logtail_files)
     end
 
+    fail('Nothing to tail') if files.nil?
+
     on roles(:app) do
       logtail_utility.tail(files)
     end
@@ -18,9 +20,9 @@ namespace :logs do
     end
 
     desc 'Tail rails log'
-    task rails: ['deploy:set_rails_env'] do
+    task :rails do
       on roles(:app) do
-        logtail_utility.tail(release_path.join('log', "#{fetch(:rails_env, 'production')}.log"))
+        logtail_utility.tail(release_path.join('log', "#{logtail_utility.rails_env}.log"))
       end
     end
 

@@ -22,6 +22,13 @@ Or install it yourself as:
 
     $ gem install capistrano-logtail
 
+## Configuration
+
+```ruby
+set :logtail_files, %w( /var/log/syslog )
+set :logtail_lines, 50
+```
+
 ## Usage
 
 Require in `Capfile`:
@@ -41,7 +48,8 @@ This will add the following tasks:
     $ cap production logs:tail:rails
     $ cap production logs:tail[production] # tails shared/log/production.log
     $ cap production logs:tail[/var/log/nginx/access.log]
-    $ cap production logs:tail # uses value of logtail_files - set :logtail_files, %w( /var/log/syslog )
+    $ cap production logs:tail # uses value of logtail_files
+    $ cap production logs:tail n=100 # specify number of existing lines to show
 
 ## Contributing
 
