@@ -42,6 +42,25 @@ This will add the following tasks:
 * logs:tail:all
 * logs:tail:rails
 
+Add tasks for other log files as required:
+
+```ruby
+# config/deploy.rb
+
+namespace :logs do
+  namespace :tail do
+    desc 'Tail sidekiq log'
+    task :sidekiq do
+      on roles(:app) do
+        logtail_utility.tail(release_path.join('log', 'sidekiq.log'))
+      end
+    end
+  end
+end
+
+# cap production logs:tail:sidekiq
+```
+
 ### Examples:
 
     $ cap production logs:tail:all

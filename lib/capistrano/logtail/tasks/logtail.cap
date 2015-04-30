@@ -1,3 +1,7 @@
+def logtail_utility
+  @logtail_utility ||= Capistrano::Logtail::Utility.new(self)
+end
+
 namespace :logs do
   desc 'Tail logs'
   task :tail, :file do |t, args|
@@ -15,10 +19,6 @@ namespace :logs do
   end
 
   namespace :tail do
-    def logtail_utility
-      @logtail_utility ||= Capistrano::Logtail::Utility.new(self)
-    end
-
     desc 'Tail rails log'
     task :rails do
       on roles(:app) do
