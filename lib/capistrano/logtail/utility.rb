@@ -12,7 +12,7 @@ module Capistrano
 
         cmd = [
             :tail,
-            '-f',
+            '-F',
             "-n#{lines}",
             *files
           ].join(' ')
